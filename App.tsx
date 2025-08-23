@@ -4,35 +4,35 @@
  *
  * @format
  */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screen/HomeScreen';
+import DetailScreen from './screen/DetailScreen';
+import {NaviStackList} from './screen/NaviStack';
 
+const Stack = createNativeStackNavigator<NaviStackList>();
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+console.log('App Rendered')
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <NavigationContainer>
+        <Stack.Navigator 
+    initialRouteName="Home"
+    screenOptions={{ contentStyle: { backgroundColor: '#fafafa' } }}
+  >
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Detail" component={DetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
   );
 }
 
