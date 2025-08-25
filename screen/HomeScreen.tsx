@@ -1,30 +1,38 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import BaseScreen from './BaseScreen';
+
 
 export default function HomeScreen({ navigation }: any) {
-    const insets = useSafeAreaInsets();
 
-  console.log('HomeScreen rendered@@@@@');
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Text style={styles.title}>Home Screen</Text>
-      <Button
-        title="Go to Detail"
-        onPress={() => navigation.navigate('Detail')}
-      />
-    </View>
+    <BaseScreen style={styles.center}>
+
+      <Text style={styles.title}>Playground Menu</Text>
+      <View style={{ margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Button
+          title="Calendar"
+          onPress={() => navigation.navigate('Calendar')}
+        />
+
+        <Button
+          title="AlarmList"
+          onPress={() => navigation.navigate('AlarmList')}
+        />
+      </View>
+
+
+    </BaseScreen>
   );
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  center: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgray',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
