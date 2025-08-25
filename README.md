@@ -2,3 +2,5 @@
 
 - 겸사겸사 저한테 필요한 영양제를 타겟으로 한 알람 앱입니다.
 - 누군가에게 도움이 되었으면 좋겠어서 만들어봅니다.
+
+![Potion Alarm Screen](rsc/not_app/potion_alarm_screen_flow.png)
