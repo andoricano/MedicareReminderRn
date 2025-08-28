@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-type Manager = {
+export type Manager = {
   type : Potion;
   totalNum: number;
   eatingNum: number;
@@ -8,20 +8,20 @@ type Manager = {
   cycle: Date[];
 }
 
-type Check = {
+export type Check = {
   ate : number;
   time: Date;
 }
 
-type Potion = {
+export type Potion = {
   name: string;
   type : Eating;
   description: String;
   bundleNum: number;
   Todo:number;
 }
-enum Eating {
-    Capsule, Gel, Raw, Drinking, Stick, Sncak, Basket
+export enum Eating {
+    None,Capsule, Gel, Raw, Drinking, Stick, Sncak, Basket
 }
 
 const ManagerContext = createContext<{
