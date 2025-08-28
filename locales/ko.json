@@ -1,0 +1,10 @@
+{
+  "add_screen_title":"알람 추가",
+  "add_screen_save_btn":"저장",
+  "add_screen_out_btn":"취소",
+  "add_screen_name_txt":"이름",
+  "add_screen_type_txt": "종류",
+  "add_screen_description_txt": "설명",
+  "add_screen_bundle_num_txt": "한 묶음의 수",
+  "add_screen_todo_num_txt":"전체 개수"
+}

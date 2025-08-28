@@ -6,7 +6,10 @@ import Colors from '../rsc/color';
 export default function BaseScreen({ children, style }: { children: React.ReactNode, style?: any }) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container, { paddingTop: insets.top }, style]}>
+    <View style={[styles.container, {
+       paddingTop: insets.top+20,
+       paddingBottom: insets.bottom+20
+        }, style]}>
       {children}
     </View>
   );
@@ -16,5 +19,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+    padding:30
   },
 });
