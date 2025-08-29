@@ -4,4 +4,7 @@ export default {
   button_ripple: '#9da08aff',
   button_text:'#26372fff',
   text: '#217608ff',
+
+  saturday:'#116ce1ff',
+  sunday:'#e5454dff'
 };

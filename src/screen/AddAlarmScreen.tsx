@@ -3,21 +3,14 @@ import { KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSh
 import text from '../locales/ko.json'
 
 import BaseScreen from './BaseScreen';
-import { Potion, Eating } from '../ManagerContext'
+import AlarmCalendar from '../components/AlarmCalendar';
+import { Potion, Eating } from '../ManagerContext';
 
 
 export default function AddAlarmScreen({ navigation }: any) {
-  const [values, setValues] = useState<Record<string, string>>({
-    name: '',
-    type: '',
-    bundleNum: '',
-    todo: '',
-    description: '',
-  });
-
   return (
     <BaseScreen style={{ flex: 1 }}>
-      <Button title={text.add_screen_out_btn} onPress={() => navigation.goBack()} />
+      <AlarmCalendar/>
     </BaseScreen>
   );
 }
