@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import BaseScreen from './BaseScreen';
 
-export default function CalendarScreen({ navigation }: any) {
+export default function HistoryScreen({ navigation }: any) {
     
       return (
         <BaseScreen>

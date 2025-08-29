@@ -1,7 +1,7 @@
 export type NaviStackList = {
   Home: undefined;
   Detail: undefined;
-  Calendar: undefined;
+  History: undefined;
   AlarmList: undefined;
   AddAlarm: undefined;
   AddPotion: undefined;

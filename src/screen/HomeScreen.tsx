@@ -37,9 +37,8 @@ const CustomList = ({ data, navigation }: CustomListProps) => {
 export default function HomeScreen({ navigation }: any) {
 
   const menuData: MenuItem[] = [
-    { id: "1", title: "1", navigateTo: "Calendar" },
-    { id: "2", title: "2", navigateTo: "AlarmList" },
-    { id: "3", title: "3", navigateTo: "Calendar" },
+    { id: "1", title: "이력 보러 가기", navigateTo: "History" },
+    { id: "2", title: "알람 확인 하기", navigateTo: "AlarmList" },
   ];
   return (
     <BaseScreen style={styles.center}>
@@ -48,7 +47,7 @@ export default function HomeScreen({ navigation }: any) {
 
       <CustomList data={menuData} navigation={navigation} />
 
-      <View style={{ margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ width:250, margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
         <Button
           title="Calendar"
           onPress={() => navigation.navigate('Calendar')}

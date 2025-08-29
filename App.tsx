@@ -14,13 +14,13 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from './rsc/color'
-import HomeScreen from './screen/HomeScreen';
-import DetailScreen from './screen/DetailScreen';
-import AlarmListScreen from './screen/AlarmListScreen';
-import AddAlarmScreen from './screen/AddAlarmScreen';
-import AddPotionScreen from './screen/AddPotionScreen';
-import CalendarScreen from './screen/CalendarScreen';
-import { NaviStackList } from './screen/NaviStack';
+import HomeScreen from './src/screen/HomeScreen';
+import DetailScreen from './src/screen/DetailScreen';
+import AlarmListScreen from './src/screen/AlarmListScreen';
+import AddAlarmScreen from './src/screen/AddAlarmScreen';
+import AddPotionScreen from './src/screen/AddPotionScreen';
+import CalendarScreen from './src/screen/HistoryScreen';
+import { NaviStackList } from './src/screen/NaviStack';
 
 const Stack = createNativeStackNavigator<NaviStackList>();
 function App() {
@@ -40,7 +40,7 @@ function App() {
           <Stack.Screen name="AlarmList" component={AlarmListScreen} />
           <Stack.Screen name="AddAlarm" component={AddAlarmScreen} />
           <Stack.Screen name="AddPotion" component={AddPotionScreen} />
-          <Stack.Screen name="Calendar" component={CalendarScreen} />
+          <Stack.Screen name="History" component={CalendarScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
