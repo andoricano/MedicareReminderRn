@@ -22,13 +22,6 @@ export default function AddPotionScreen({ navigation }: any) {
     todo: `todo_${randomString()}`,
     description: `desc_${randomString()}`,
   });
-  // const [values, setValues] = useState<Record<string, string>>({
-  //   name: '',
-  //   type: '',
-  //   bundleNum: '',
-  //   todo: '',
-  //   description: '',
-  // });
 
   const handleSave = () => {
     const potion: Potion = {

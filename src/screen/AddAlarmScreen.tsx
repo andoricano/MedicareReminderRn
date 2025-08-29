@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import text from '../locales/ko.json'
 
 import BaseScreen from './BaseScreen';
-import AlarmCalendar from '../components/AlarmCalendar';
+import AlarmCalendar, { AlarmCalendarHandle } from '../components/AlarmCalendar';
 import { Potion, Eating } from '../ManagerContext';
 
 
 export default function AddAlarmScreen({ navigation }: any) {
+  const calendarRef = useRef<AlarmCalendarHandle>(null);
   return (
     <BaseScreen style={{ flex: 1 }}>
-      <AlarmCalendar/>
+      <AlarmCalendar ref={calendarRef} />
+      <View style={{ width: 250, margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Button title="allcheck" onPress={() => calendarRef.current?.selectAll()} />
+        <Button title="2day check" onPress={() => calendarRef.current?.select2Days()} />
+      </View>
     </BaseScreen>
   );
 }
