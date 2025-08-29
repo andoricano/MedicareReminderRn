@@ -18,6 +18,7 @@ import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
 import AlarmListScreen from './screen/AlarmListScreen';
 import AddAlarmScreen from './screen/AddAlarmScreen';
+import AddPotionScreen from './screen/AddPotionScreen';
 import CalendarScreen from './screen/CalendarScreen';
 import { NaviStackList } from './screen/NaviStack';
 
@@ -34,11 +35,11 @@ function App() {
           screenOptions={{
             headerShown: false,
           }}>
-
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
           <Stack.Screen name="AlarmList" component={AlarmListScreen} />
           <Stack.Screen name="AddAlarm" component={AddAlarmScreen} />
+          <Stack.Screen name="AddPotion" component={AddPotionScreen} />
           <Stack.Screen name="Calendar" component={CalendarScreen} />
         </Stack.Navigator>
       </NavigationContainer>

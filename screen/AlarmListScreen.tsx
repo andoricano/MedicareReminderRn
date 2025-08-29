@@ -10,8 +10,8 @@ export default function AlarmListScreen({ navigation }: any) {
           <Text style={styles.title}>AlarmList</Text>
           <View style={{ margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
             <Button
-              title="AddAlarm"
-              onPress={() => navigation.navigate('AddAlarm')}
+              title="AddPotion"
+              onPress={() => navigation.navigate('AddPotion')}
             />
           </View>
     

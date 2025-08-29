@@ -4,4 +4,5 @@ export type NaviStackList = {
   Calendar: undefined;
   AlarmList: undefined;
   AddAlarm: undefined;
+  AddPotion: undefined;
 };
