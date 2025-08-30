@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
-import { useManager, Manager } from '../ManagerContext';
+import { useManager, Manager, ManagerProvider } from '../ManagerContext';
 import '../test/CreateData'
 import { generateRandomManagers } from '../test/CreateData';
 
@@ -30,7 +30,11 @@ const PotionList = ({ data }: { data: Manager[]; }) => {
 
 
 export default function AlarmListScreen({ navigation }: any) {
-  const managers = useState(generateRandomManagers())[0];
+  const { managers, setManagers } = useManager();
+
+  // managers 접근
+  managers.forEach(m => console.log(m.type.name, m.type.type, m.totalNum));
+
 
   return (
     <BaseScreen>

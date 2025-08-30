@@ -30,8 +30,7 @@ const PotionList = ({ data }: { data: Manager[]; }) => {
 
 
 export default function HomeScreen({ navigation }: any) {
-  const [managers, setManagers] = useState(generateRandomManagers());
-
+  const { managers, setManagers } = useManager();
   return (
     <BaseScreen style={styles.center}>
       <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
