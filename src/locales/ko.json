@@ -1,4 +1,8 @@
 {
+  "title_screen_title":"오늘의 영양제",
+  "title_screen_callendar_btn":"이력 보기",
+  "title_screen_list_btn":"영양제 목록",
+
   "add_screen_title":"알람 추가",
   "add_screen_save_btn":"저장",
   "add_screen_out_btn":"취소",
