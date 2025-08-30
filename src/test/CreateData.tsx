@@ -6,7 +6,7 @@ export const generateRandomManagers = (): Manager[] => {
 
   const randomPotion = (): Potion => ({
     name: names[Math.floor(Math.random() * names.length)],
-    type: Math.floor(Math.random() * Object.keys(Eating).length / 2), // enum 랜덤
+    type: Object.values(Eating)[Math.floor(Math.random() * Object.values(Eating).length)] as Eating,
     description: descriptions[Math.floor(Math.random() * descriptions.length)],
     bundleNum: Math.floor(Math.random() * 50) + 10,
     Todo: 0,

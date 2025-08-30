@@ -21,7 +21,14 @@ export type Potion = {
   Todo:number;
 }
 export enum Eating {
-    None,Capsule, Gel, Raw, Drinking, Stick, Sncak, Basket
+  None = "None",
+  Capsule = "Capsule",
+  Gel = "Gel",
+  Raw = "Raw",
+  Drinking = "Drinking",
+  Stick = "Stick",
+  Sncak = "Sncak",
+  Basket = "Basket",
 }
 
 const ManagerContext = createContext<{
