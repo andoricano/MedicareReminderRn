@@ -3,6 +3,11 @@
   "title_screen_callendar_btn":"이력 보기",
   "title_screen_list_btn":"영양제 목록",
 
+  "alarm_list_screen_title":"나의 영양제 창고",
+  "alarm_list_screen_item_key_info":"이름 : ",
+  "alarm_list_screen_item_total_info":"종류 : ",
+  "alarm_list_screen_item_type_info":"개수 : ",
+
   "add_screen_title":"알람 추가",
   "add_screen_save_btn":"저장",
   "add_screen_out_btn":"취소",
