@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
@@ -16,8 +16,8 @@ const PotionList = ({ data }: { data: Manager[]; }) => {
           <View style={styles.card}>
             <Text style={styles.titleText}>{item.type.name}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text>종류 : {item.type.type}</Text>
-              <Text>총 개수: {item.totalNum}</Text>
+              <Text>{text.alarm_list_screen_item_type_info} : {item.type.type}</Text>
+              <Text>{text.alarm_list_screen_item_total_info} {item.totalNum}</Text>
             </View>
           </View>
         )}
