@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import BaseScreen from './BaseScreen';
+import text from '../locales/ko.json'
 
 export default function DetailScreen({ navigation }: any) {
-    console.log('HomeScreen rendered@@@@@');
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Detail Screen</Text>
-      <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate('Home')}
-      />
-    </View>
-  );
+    
+      return (
+        <BaseScreen>
+              <Text style={styles.title}>{text.deatil_screen_title}</Text>
+              <View style={{ margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
+                
+              </View>
+        </BaseScreen>
+      );
 }
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
