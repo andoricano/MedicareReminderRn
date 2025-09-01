@@ -1,4 +1,5 @@
 export type Manager = {
+  id: string;
   type : Potion;
   totalNum: number;
   eatingNum: number;

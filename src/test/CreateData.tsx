@@ -1,4 +1,5 @@
 import { Manager, Potion, Eating } from "../models/Manager";
+import { v4 as uuidv4 } from 'uuid';
 
 export const generateRandomManagers = (): Manager[] => {
   const names = ["비타민C", "오메가3", "루테인", "홍삼", "유산균"];
@@ -17,6 +18,7 @@ export const generateRandomManagers = (): Manager[] => {
     const total = potion.bundleNum;
     const eaten = Math.floor(Math.random() * total);
     return {
+      id: uuidv4(),
       type: potion,
       totalNum: total,
       eatingNum: eaten,
