@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSh
 import text from '../locales/ko.json'
 
 import BaseScreen from './BaseScreen';
-import { Potion, Eating } from '../ManagerContext'
+import { Manager, Potion, Eating } from "../models/Manager";
 
 const fields = [
   { key: 'name', type: 'input', label: text.add_screen_name_txt, placeholder: '이름 입력' },

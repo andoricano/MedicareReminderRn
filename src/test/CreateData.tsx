@@ -1,4 +1,4 @@
-import { Manager, Potion, Eating } from "../ManagerContext";
+import { Manager, Potion, Eating } from "../models/Manager";
 
 export const generateRandomManagers = (): Manager[] => {
   const names = ["비타민C", "오메가3", "루테인", "홍삼", "유산균"];

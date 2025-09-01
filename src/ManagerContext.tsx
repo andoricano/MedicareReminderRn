@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { realm } from "./db/realm";
+
 export type Manager = {
   type : Potion;
   totalNum: number;

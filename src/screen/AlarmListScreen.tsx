@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
-import { useManager, Manager, ManagerProvider } from '../ManagerContext';
+import { useManager, ManagerProvider } from '../ManagerContext';
+import { Manager } from "../models/Manager";
 import '../test/CreateData'
 
 const PotionList = ({ data }: { data: Manager[]; }) => {
