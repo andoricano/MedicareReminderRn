@@ -1,15 +1,14 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { realm } from "./db/realm";
-import { Manager } from "./models/Manager";
+import { Potion } from "./models/Manager";
 
 const ManagerContext = createContext<{
-  managers: Manager[];
-  setManagers: React.Dispatch<React.SetStateAction<Manager[]>>;
+  managers: Potion[];
+  setManagers: React.Dispatch<React.SetStateAction<Potion[]>>;
 } | null>(null);
 
 // Provider
 export const ManagerProvider = ({ children }: { children: ReactNode }) => {
-  const [managers, setManagers] = useState<Manager[]>([]); // 빈 리스트로 초기화
+  const [managers, setManagers] = useState<Potion[]>([]); // 빈 리스트로 초기화
 
   return (
     <ManagerContext.Provider value={{ managers, setManagers }}>

@@ -1,25 +1,17 @@
-export type Manager = {
+export type Potion = {
   id: string;
-  type : Potion;
+  name: string;
+  type : string;
+  time: string;
+  bundleNum: number;
+  Todo:number;
+  ate : number;
   totalNum: number;
   eatingNum: number;
   restNum : number;
-  alarm: Check[];
-  cycle: Date[];
-}
-
-export type Check = {
-  ate : number;
-  time: Date;
-}
-
-export type Potion = {
-  name: string;
-  type : Eating;
   description: String;
-  bundleNum: number;
-  Todo:number;
 }
+
 export enum Eating {
   None = "None",
   Capsule = "Capsule",

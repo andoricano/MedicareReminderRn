@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import text from '../locales/ko.json'
+import uuid from "react-native-uuid";
 
 import BaseScreen from './BaseScreen';
-import { Manager, Potion, Eating } from "../models/Manager";
+import { Potion, Eating } from "../models/Manager";
 
 const fields = [
   { key: 'name', type: 'input', label: text.add_screen_name_txt, placeholder: '이름 입력' },
@@ -15,7 +16,7 @@ const fields = [
 
 export default function AddPotionScreen({ navigation }: any) {
   const randomString = () => Math.random().toString(36).substring(2, 7);
-    const [values, setValues] = useState<Record<string, string>>({
+  const [values, setValues] = useState<Record<string, string>>({
     name: `name_${randomString()}`,
     type: 'Capsule',
     bundleNum: `${Math.floor(Math.random() * 100)}`, // 0~99
@@ -25,11 +26,17 @@ export default function AddPotionScreen({ navigation }: any) {
 
   const handleSave = () => {
     const potion: Potion = {
+      id: uuid.v4().toString(),
       name: values.name,
-      type: values.type as unknown as Eating,
+      eatingType: values.eatingType,
+      time: new Date().toISOString(),
+      bundleNum: 0,
+      Todo: 0,
+      ate: 0,
+      totalNum: 0,
+      eatingNum: 0,
+      restNum: 0,
       description: values.description,
-      bundleNum: parseInt(values.bundleNum) || 0,
-      Todo: parseInt(values.todo) || 0,
     };
     console.log('저장:', potion);
   };

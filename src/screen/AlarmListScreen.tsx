@@ -3,10 +3,10 @@ import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
 import { useManager, ManagerProvider } from '../ManagerContext';
-import { Manager } from "../models/Manager";
+import { Potion } from "../models/Manager";
 import '../test/CreateData'
 
-const PotionList = ({ data }: { data: Manager[]; }) => {
+const PotionList = ({ data }: { data: Potion[]; }) => {
   return (
     <View style={{ width: '100%', height: 500, paddingTop: 20 }}>
       <FlatList
@@ -14,9 +14,9 @@ const PotionList = ({ data }: { data: Manager[]; }) => {
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Text style={styles.titleText}>{item.type.name}</Text>
+            <Text style={styles.titleText}>{item.eatingType}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text>{text.alarm_list_screen_item_type_info} : {item.type.type}</Text>
+              <Text>{text.alarm_list_screen_item_type_info} : {item.eatingType}</Text>
               <Text>{text.alarm_list_screen_item_total_info} {item.totalNum}</Text>
             </View>
           </View>
@@ -32,7 +32,7 @@ const PotionList = ({ data }: { data: Manager[]; }) => {
 export default function AlarmListScreen({ navigation }: any) {
   const { managers, setManagers } = useManager();
 
-  managers.forEach(m => console.log(m.type.name, m.type.type, m.totalNum));
+  managers.forEach(m => console.log(m.eatingType, m.eatingType, m.totalNum));
 
   return (
     <BaseScreen>
