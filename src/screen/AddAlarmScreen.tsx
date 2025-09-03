@@ -6,26 +6,30 @@ import { View, Button, StyleSheet } from 'react-native';
 import BaseScreen from './BaseScreen';
 import AlarmCalendar, { AlarmCalendarHandle } from '../components/AlarmCalendar';
 import { Potion } from '../models/Manager';
+import { useManager } from '../ManagerContext';
 
 type AddAlarmRouteProp = RouteProp<NaviStackList, 'AddAlarm'>;
 
 export default function AddAlarmScreen({ navigation, route }: any) {
-  const { potion } = route.params; 
-  console.log(potion)
+  const { potion } = route.params;
+  const { addPotionCtx } = useManager();
   const calendarRef = useRef<AlarmCalendarHandle>(null);
   return (
     <BaseScreen style={{ flex: 1 }}>
-        <Button
-          title="back"
-          onPress={() => navigation.pop()}
-        />
+      <Button
+        title="back"
+        onPress={() => navigation.pop()}
+      />
       <AlarmCalendar ref={calendarRef} />
       <View style={{ width: 250, margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
         <Button title="allcheck" onPress={() => calendarRef.current?.selectAll()} />
         <Button title="2day check" onPress={() => calendarRef.current?.select2Days()} />
         <Button
           title="Done"
-          onPress={() => navigation.pop(2)}
+          onPress={async () => {
+            await addPotionCtx(potion);
+            navigation.pop(2);         
+          }}
         />
       </View>
     </BaseScreen>
