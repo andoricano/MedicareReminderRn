@@ -1,7 +1,7 @@
 export type Potion = {
   id: string;
   name: string;
-  type : string;
+  eatingType : Eating;
   time: string;
   bundleNum: number;
   Todo:number;

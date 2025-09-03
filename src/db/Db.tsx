@@ -1,6 +1,6 @@
 import SQLite from "react-native-sqlite-storage";
 import uuid from "react-native-uuid";
-import {Potion} from "../models/Manager"
+import {Eating, Potion} from "../models/Manager"
 
 SQLite.enablePromise(true);
 
@@ -59,12 +59,25 @@ export const getPotions = async (db: SQLite.SQLiteDatabase): Promise<Potion[]> =
   const results = await db.executeSql("SELECT * FROM potion;");
   const rows = results[0].rows;
   const potions: Potion[] = [];
+
   for (let i = 0; i < rows.length; i++) {
-    potions.push(rows.item(i));
+    const item = rows.item(i);
+    potions.push({
+      id: item.id,
+      name: item.name,
+      eatingType: item.eatingType as Eating, // 문자열 → enum 캐스팅
+      time: item.time,
+      bundleNum: item.bundleNum,
+      Todo: item.Todo,
+      ate: item.ate,
+      totalNum: item.totalNum,
+      eatingNum: item.eatingNum,
+      restNum: item.restNum,
+      description: item.description,
+    });
   }
   return potions;
 };
-
 // UPDATE
 export const updatePotion = async (
   db: SQLite.SQLiteDatabase,
@@ -86,7 +99,7 @@ export const updatePotion = async (
   `;
   await db.executeSql(query, [
     potion.name,
-    potion.eatingType,
+    potion.eatingType.toString(), // enum → string 저장
     potion.time,
     potion.bundleNum,
     potion.Todo,
