@@ -16,30 +16,28 @@ const fields = [
 
 export default function AddPotionScreen({ navigation }: any) {
   const randomString = () => Math.random().toString(36).substring(2, 7);
+  const bundleNum = Math.floor(Math.random() * 100)
   const [values, setValues] = useState<Record<string, string>>({
     name: `name_${randomString()}`,
     type: 'Capsule',
-    bundleNum: `${Math.floor(Math.random() * 100)}`, // 0~99
-    todo: `todo_${randomString()}`,
+    bundleNum: `${bundleNum}`,
+    todo: `${bundleNum - 1}`,
     description: `desc_${randomString()}`,
   });
 
-  const handleSave = () => {
-    const potion: Potion = {
-      id: uuid.v4().toString(),
-      name: values.name,
-      eatingType: values.eatingType,
-      time: new Date().toISOString(),
-      bundleNum: 0,
-      Todo: 0,
-      ate: 0,
-      totalNum: 0,
-      eatingNum: 0,
-      restNum: 0,
-      description: values.description,
-    };
-    console.log('저장:', potion);
-  };
+  const makePotion = (): Potion => ({
+    id: String(uuid.v4()),
+    name: values.name,
+    eatingType: Eating.Capsule,
+    time: new Date().toISOString(),
+    bundleNum: parseInt(values.bundleNum, 10),
+    Todo: parseInt(values.bundleNum, 10),
+    ate: 0,
+    totalNum: 0,
+    eatingNum: 0,
+    restNum: 0,
+    description: values.description,
+  });
 
   return (
     <BaseScreen style={{ flex: 1 }}>
@@ -83,8 +81,9 @@ export default function AddPotionScreen({ navigation }: any) {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
             <Button title={text.add_screen_out_btn} onPress={() => navigation.goBack()} />
             <Button title={text.add_screen_save_btn} onPress={() => {
-              handleSave()
-              navigation.navigate('AddAlarm')
+              const potion = makePotion();
+              console.log(potion);
+              navigation.navigate('AddAlarm', { potion: makePotion() })
             }} />
           </View>
         </ScrollView>

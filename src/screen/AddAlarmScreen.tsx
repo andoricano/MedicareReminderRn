@@ -1,11 +1,17 @@
 import React, { useRef } from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { NaviStackList } from './NaviStack';
 import { View, Button, StyleSheet } from 'react-native';
 
 import BaseScreen from './BaseScreen';
 import AlarmCalendar, { AlarmCalendarHandle } from '../components/AlarmCalendar';
+import { Potion } from '../models/Manager';
 
+type AddAlarmRouteProp = RouteProp<NaviStackList, 'AddAlarm'>;
 
-export default function AddAlarmScreen({ navigation }: any) {
+export default function AddAlarmScreen({ navigation, route }: any) {
+  const { potion } = route.params; 
+  console.log(potion)
   const calendarRef = useRef<AlarmCalendarHandle>(null);
   return (
     <BaseScreen style={{ flex: 1 }}>
