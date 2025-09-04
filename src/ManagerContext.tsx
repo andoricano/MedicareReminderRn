@@ -40,16 +40,10 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
 
   // CREATE
   const addPotionCtx = async (potion: Omit<Potion, "id">) => {
-    console.log("씨발초딩년일자보지칼로쑤셔버려씨발련아addPotionCtx")
-    console.log("addPotionCtx")
-    console.log(db)
-    console.log(db)
-    console.log("씨발초딩년일자보지칼로쑤셔버려씨발련아addPotionCtx")
-
-    if (!db) throw new Error("DB가 아직 열리지 않음");
-    const id = await addPotion(db, potion);
-    setManagers(prev => [...prev, { ...potion, id }]);
-  };
+  if (!db) throw new Error("DB가 아직 열리지 않음");
+  const id: string = await addPotion(db, potion); // id 타입 명시
+  setManagers(prev => [...prev, { ...potion, id }]);
+};
 
   // UPDATE
   const updatePotionCtx = async (potion: Potion) => {

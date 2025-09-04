@@ -37,37 +37,34 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
 export const addPotion = async (
   db: SQLite.SQLiteDatabase,
   potion: Omit<Potion, "id">
-): Promise<string> => {
-  console.log(db)
-  console.log(db.dbname)
+) => {
+  console.log("add-> db 초기화 성공 상태", db)
 
   const id = uuid.v4().toString();
 
-  try {
-    await db.executeSql(
-      `INSERT INTO potion 
+
+  db.transaction((tx) => {
+    tx.executeSql(
+`INSERT INTO potion 
         (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        id,
-        potion.name || "",
-        potion.eatingType?.toString() || "",
-        potion.time || "",
-        potion.bundleNum ?? 0,
-        potion.Todo ?? 0,
-        potion.ate ?? 0,
-        potion.totalNum ?? 0,
-        potion.eatingNum ?? 0,
-        potion.restNum ?? 0,
-        potion.description || "",
-      ]
-    );
-    console.log("✅ INSERT 성공:", id);
-    return id;
-  } catch (err) {
-    console.error("❌ INSERT 실패:", err);
-    throw err;
+    [
+      id,
+      potion.name || "",
+      potion.eatingType?.toString() || "",
+      potion.time || "",
+      potion.bundleNum ?? 0,
+      potion.Todo ?? 0,
+      potion.ate ?? 0,
+      potion.totalNum ?? 0,
+      potion.eatingNum ?? 0,
+      potion.restNum ?? 0,
+      potion.description || "",
+    ]
+    )
   }
+  )
+  return id;
 };
 
 // READ
