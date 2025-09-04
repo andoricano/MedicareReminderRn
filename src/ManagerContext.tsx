@@ -1,3 +1,4 @@
+import SQLite from "react-native-sqlite-storage";
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { Potion } from "./models/Manager";
 import { getDBConnection, createPotionTable, getPotions, addPotion, updatePotion, deletePotion, deleteAllPotions } from './db/Db';
@@ -14,54 +15,62 @@ type ManagerContextType = {
 
 const ManagerContext = createContext<ManagerContextType | null>(null);
 
-// Provider
+
+
 export const ManagerProvider = ({ children }: { children: ReactNode }) => {
   const [managers, setManagers] = useState<Potion[]>([]);
+  var [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
 
-  // DB 초기화 & 로드
   useEffect(() => {
     (async () => {
-      const db = await getDBConnection();
-      await createPotionTable(db);
-      await loadPotions(); // 첫 로드
+        db = await getDBConnection();
+        console.log("DB 연결 성공!!:", db);
+        await createPotionTable(db);
+        console.log("DB table 초기화 성공!!:", db);
     })();
   }, []);
 
   // READ
-  const loadPotions = async () => {
-    const db = await getDBConnection();
-    const data = await getPotions(db);
+  const loadPotions = async (database?: SQLite.SQLiteDatabase) => {
+    const dbToUse = database || db;
+    if (!dbToUse) throw new Error("DB가 아직 열리지 않음");
+    const data = await getPotions(dbToUse);
     setManagers(data);
   };
 
   // CREATE
   const addPotionCtx = async (potion: Omit<Potion, "id">) => {
-    const db = await getDBConnection();
+    console.log("씨발초딩년일자보지칼로쑤셔버려씨발련아addPotionCtx")
+    console.log("addPotionCtx")
+    console.log(db)
+    console.log(db)
+    console.log("씨발초딩년일자보지칼로쑤셔버려씨발련아addPotionCtx")
+
+    if (!db) throw new Error("DB가 아직 열리지 않음");
     const id = await addPotion(db, potion);
     setManagers(prev => [...prev, { ...potion, id }]);
   };
 
   // UPDATE
   const updatePotionCtx = async (potion: Potion) => {
-    const db = await getDBConnection();
+    if (!db) throw new Error("DB가 아직 열리지 않음");
     await updatePotion(db, potion);
     setManagers(prev => prev.map(p => (p.id === potion.id ? potion : p)));
   };
 
   // DELETE (단일)
   const deletePotionCtx = async (id: string) => {
-    const db = await getDBConnection();
+    if (!db) throw new Error("DB가 아직 열리지 않음");
     await deletePotion(db, id);
     setManagers(prev => prev.filter(p => p.id !== id));
   };
 
   // DELETE (전체)
   const deleteAllPotionsCtx = async () => {
-    const db = await getDBConnection();
+    if (!db) throw new Error("DB가 아직 열리지 않음");
     await deleteAllPotions(db);
     setManagers([]);
   };
-
   return (
     <ManagerContext.Provider
       value={{ managers, setManagers, loadPotions, addPotionCtx, updatePotionCtx, deletePotionCtx, deleteAllPotionsCtx }}
@@ -70,6 +79,8 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
     </ManagerContext.Provider>
   );
 };
+
+
 
 // Hook
 export const useManager = () => {

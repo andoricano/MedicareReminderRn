@@ -1,16 +1,21 @@
 import SQLite from "react-native-sqlite-storage";
 import uuid from "react-native-uuid";
-import {Eating, Potion} from "../models/Manager"
+import { Eating, Potion } from "../models/Manager"
 
 SQLite.enablePromise(true);
 
 export const getDBConnection = async () => {
-  return SQLite.openDatabase({ name: "potion.db", location: "default" });
+  return SQLite.openDatabase({ name: "poti.db", location: "default" });
 };
 
+
 export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
-  const query = `
-    CREATE TABLE IF NOT EXISTS potion (
+  console.log("createPotionTable ok?", db)
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      `
+      CREATE TABLE IF NOT EXISTS potion (
       id TEXT PRIMARY KEY NOT NULL,
       name TEXT NOT NULL,
       eatingType TEXT,
@@ -23,35 +28,46 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
       restNum INTEGER,
       description TEXT
     );
-  `;
-  await db.executeSql(query);
+      `
+    )
+  })
+  console.log("createPotionTable goood!!!", db)
 };
 
-// CREATE
 export const addPotion = async (
   db: SQLite.SQLiteDatabase,
   potion: Omit<Potion, "id">
-) => {
+): Promise<string> => {
+  console.log(db)
+  console.log(db.dbname)
+
   const id = uuid.v4().toString();
-  const query = `
-    INSERT INTO potion 
-    (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-  `;
-  await db.executeSql(query, [
-    id,
-    potion.name,
-    potion.eatingType,
-    potion.time,
-    potion.bundleNum,
-    potion.Todo,
-    potion.ate,
-    potion.totalNum,
-    potion.eatingNum,
-    potion.restNum,
-    potion.description,
-  ]);
-  return id;
+
+  try {
+    await db.executeSql(
+      `INSERT INTO potion 
+        (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        potion.name || "",
+        potion.eatingType?.toString() || "",
+        potion.time || "",
+        potion.bundleNum ?? 0,
+        potion.Todo ?? 0,
+        potion.ate ?? 0,
+        potion.totalNum ?? 0,
+        potion.eatingNum ?? 0,
+        potion.restNum ?? 0,
+        potion.description || "",
+      ]
+    );
+    console.log("✅ INSERT 성공:", id);
+    return id;
+  } catch (err) {
+    console.error("❌ INSERT 실패:", err);
+    throw err;
+  }
 };
 
 // READ
