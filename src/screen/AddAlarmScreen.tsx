@@ -26,9 +26,9 @@ export default function AddAlarmScreen({ navigation, route }: any) {
         <Button title="2day check" onPress={() => calendarRef.current?.select2Days()} />
         <Button
           title="Done"
-          onPress={async () => {
+          onPress={async () => {   
+            // navigation.pop(2);      
             await addPotionCtx(potion);
-            navigation.pop(2);         
           }}
         />
       </View>

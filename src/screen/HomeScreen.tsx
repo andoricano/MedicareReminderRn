@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
 import { useManager } from '../ManagerContext';
 import { Potion } from "../models/Manager";
-import '../test/CreateData'
-import { generateRandomManagers } from '../test/CreateData';
 
 const PotionList = ({ data }: { data: Potion[]; }) => {
   return (
@@ -31,20 +29,18 @@ const PotionList = ({ data }: { data: Potion[]; }) => {
 
 
 export default function HomeScreen({ navigation }: any) {
-  const { managers, setManagers } = useManager();
+  const { managers, loadPotions } = useManager(); // loadPotions 포함
+
+  useEffect(() => {
+    loadPotions();
+  }, []);
+  
   return (
     <BaseScreen style={styles.center}>
       <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
         <Text style={[styles.title, { flex: 1, textAlign: 'center' }]}>
           {text.title_screen_title}
         </Text>
-        <Button
-          title="test"
-          onPress={() => {
-            setManagers(generateRandomManagers());
-            console.log(managers);
-          }}
-        />
       </View>
       <PotionList data={managers} />
 
