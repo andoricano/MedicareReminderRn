@@ -1,13 +1,33 @@
 import SQLite from "react-native-sqlite-storage";
 import uuid from "react-native-uuid";
 import { Eating, Potion } from "../models/Manager"
+import { Platform } from "react-native";
+import RNFS from 'react-native-fs';
 
-SQLite.enablePromise(true);
 
-export const getDBConnection = async () => {
-  return SQLite.openDatabase({ name: "poti.db", location: "default" });
+export const getDBConnection = (
+  onSuccess: (db: SQLite.SQLiteDatabase) => void,
+  onError: (err: any) => void
+) => {
+
+  console.log("DB path:");
+  if (Platform.OS === "android") {
+    console.log(RNFS.DocumentDirectoryPath + "/poti.db");
+  } else {
+    console.log(RNFS.LibraryDirectoryPath + "/poti.db");
+  }
+  SQLite.openDatabase(
+    { name: "poti.db", location: "default" },
+    db => {
+      console.log("DB open success ");
+      onSuccess(db);
+    },
+    err => {
+      console.error("SQLite open error:", err);
+      onError(err);
+    }
+  );
 };
-
 
 export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
   console.log("createPotionTable ok?", db)
@@ -33,85 +53,103 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
   })
   console.log("createPotionTable goood!!!", db)
 };
-
-export const addPotion = async (
+export const getPotions = (
   db: SQLite.SQLiteDatabase,
-  potion: Omit<Potion, "id">
+  onSuccess: (potions: Potion[]) => void,
+  onError: (err: any) => void
 ) => {
-  console.log("add-> db 초기화 성공 상태", db)
+  console.log("getPotions", db);
 
-  const id = uuid.v4().toString();
-
-
-  db.transaction((tx) => {
+  db.transaction(tx => {
     tx.executeSql(
-`INSERT INTO potion 
-        (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      id,
-      potion.name || "",
-      potion.eatingType?.toString() || "",
-      potion.time || "",
-      potion.bundleNum ?? 0,
-      potion.Todo ?? 0,
-      potion.ate ?? 0,
-      potion.totalNum ?? 0,
-      potion.eatingNum ?? 0,
-      potion.restNum ?? 0,
-      potion.description || "",
-    ]
-    )
-  }
-  )
-  return id;
-};
+      "SELECT * FROM potion;",
+      [],
+      (_, results) => {
+        console.log("try getPotions!!2");
 
-export const getPotions = async (db: SQLite.SQLiteDatabase): Promise<Potion[]> => {
-  return new Promise<Potion[]>((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM potion;",
-        [],
-        (_, results) => {
-          console.log("try getPotions!!2");
+        const rows = results.rows;
+        const potions: Potion[] = [];
 
-          const rows = results.rows;
-          const potions: Potion[] = [];
-
-          for (let i = 0; i < rows.length; i++) {
-            const item = rows.item(i);
-            potions.push({
-              id: item.id,
-              name: item.name,
-              eatingType: item.eatingType as Eating,
-              time: item.time,
-              bundleNum: item.bundleNum,
-              Todo: item.Todo,
-              ate: item.ate,
-              totalNum: item.totalNum,
-              eatingNum: item.eatingNum,
-              restNum: item.restNum,
-              description: item.description,
-            });
-          }
-
-          resolve(potions);
-        },
-        (_, error) => {
-          console.error("getPotions error:", error);
-          reject(error);
-          return false; // rollback 안 함
+        for (let i = 0; i < rows.length; i++) {
+          const item = rows.item(i);
+          potions.push({
+            id: item.id,
+            name: item.name,
+            eatingType: item.eatingType as Eating,
+            time: item.time,
+            bundleNum: item.bundleNum,
+            Todo: item.Todo,
+            ate: item.ate,
+            totalNum: item.totalNum,
+            eatingNum: item.eatingNum,
+            restNum: item.restNum,
+            description: item.description,
+          });
         }
-      );
-    });
+
+        onSuccess(potions);
+      },
+      (_, error) => {
+        console.error("getPotions error:", error);
+        onError(error);
+        return false;
+      }
+    );
   });
 };
 
-// UPDATE
-export const updatePotion = async (
+export const addPotion = (
   db: SQLite.SQLiteDatabase,
-  potion: Potion
+  potion: Omit<Potion, "id">,
+  onSuccess: (id: string) => void,
+  onError: (err: any) => void
+) => {
+  const id = uuid.v4().toString();
+
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        `INSERT INTO potion 
+         (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          id,
+          potion.name || "",
+          potion.eatingType?.toString() || "",
+          potion.time || "",
+          potion.bundleNum ?? 0,
+          potion.Todo ?? 0,
+          potion.ate ?? 0,
+          potion.totalNum ?? 0,
+          potion.eatingNum ?? 0,
+          potion.restNum ?? 0,
+          potion.description || "",
+        ],
+        (_, results) => {
+          console.log("✅ addPotion success", id, results);
+          onSuccess(id);
+        },
+        (_, error) => {
+          console.error("❌ addPotion error:", error);
+          onError(error);
+          return false; // rollback 안 함
+        }
+      );
+    },
+    error => {
+      console.error("❌ transaction error:", error);
+      onError(error);
+    }
+  );
+};
+
+
+// UPDATE
+export const updatePotion = (
+  db: SQLite.SQLiteDatabase,
+  potion: Potion,
+  onSuccess: () => void,
+  onError: (err: any) => void
 ) => {
   const query = `
     UPDATE potion SET
@@ -127,28 +165,90 @@ export const updatePotion = async (
       description = ?
     WHERE id = ?;
   `;
-  await db.executeSql(query, [
-    potion.name,
-    potion.eatingType.toString(), // enum → string 저장
-    potion.time,
-    potion.bundleNum,
-    potion.Todo,
-    potion.ate,
-    potion.totalNum,
-    potion.eatingNum,
-    potion.restNum,
-    potion.description,
-    potion.id,
-  ]);
+
+  db.transaction(tx => {
+    tx.executeSql(
+      query,
+      [
+        potion.name,
+        potion.eatingType.toString(),
+        potion.time,
+        potion.bundleNum,
+        potion.Todo,
+        potion.ate,
+        potion.totalNum,
+        potion.eatingNum,
+        potion.restNum,
+        potion.description,
+        potion.id,
+      ],
+      () => {
+        console.log("✅ updatePotion success", potion.id);
+        onSuccess();
+      },
+      (_, error) => {
+        console.error("❌ updatePotion error:", error);
+        onError(error);
+        return false;
+      }
+    );
+  }, err => {
+    console.error("❌ transaction error (updatePotion):", err);
+    onError(err);
+  });
 };
 
 // DELETE (단일)
-export const deletePotion = async (db: SQLite.SQLiteDatabase, id: string) => {
+export const deletePotion = (
+  db: SQLite.SQLiteDatabase,
+  id: string,
+  onSuccess: () => void,
+  onError: (err: any) => void
+) => {
   const query = "DELETE FROM potion WHERE id = ?;";
-  await db.executeSql(query, [id]);
+
+  db.transaction(tx => {
+    tx.executeSql(
+      query,
+      [id],
+      () => {
+        console.log("✅ deletePotion success", id);
+        onSuccess();
+      },
+      (_, error) => {
+        console.error("❌ deletePotion error:", error);
+        onError(error);
+        return false;
+      }
+    );
+  }, err => {
+    console.error("❌ transaction error (deletePotion):", err);
+    onError(err);
+  });
 };
 
 // DELETE (전체)
-export const deleteAllPotions = async (db: SQLite.SQLiteDatabase) => {
-  await db.executeSql("DELETE FROM potion;");
+export const deleteAllPotions = (
+  db: SQLite.SQLiteDatabase,
+  onSuccess: () => void,
+  onError: (err: any) => void
+) => {
+  db.transaction(tx => {
+    tx.executeSql(
+      "DELETE FROM potion;",
+      [],
+      () => {
+        console.log("✅ deleteAllPotions success");
+        onSuccess();
+      },
+      (_, error) => {
+        console.error("❌ deleteAllPotions error:", error);
+        onError(error);
+        return false;
+      }
+    );
+  }, err => {
+    console.error("❌ transaction error (deleteAllPotions):", err);
+    onError(err);
+  });
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import BaseScreen from './BaseScreen';
 import text from '../locales/ko.json'
-import { useManager, ManagerProvider } from '../ManagerContext';
+import { useManager } from '../ManagerContext';
 import { Potion } from "../models/Manager";
 import '../test/CreateData'
 
@@ -32,8 +32,6 @@ const PotionList = ({ data }: { data: Potion[]; }) => {
 export default function AlarmListScreen({ navigation }: any) {
   const { managers, setManagers } = useManager();
 
-  managers.forEach(m => console.log(m.eatingType, m.eatingType, m.totalNum));
-
   return (
     <BaseScreen>
 
@@ -43,6 +41,12 @@ export default function AlarmListScreen({ navigation }: any) {
         <Button
           title="AddPotion"
           onPress={() => navigation.navigate('AddPotion')}
+        />
+        <Button
+          title="CheckList"
+          onPress={() => {
+            console.log("checked List==>",managers[0], managers);
+          }}
         />
       </View>
     </BaseScreen>
