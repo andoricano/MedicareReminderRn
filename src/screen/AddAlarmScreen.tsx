@@ -5,10 +5,8 @@ import { View, Button, StyleSheet } from 'react-native';
 
 import BaseScreen from './BaseScreen';
 import AlarmCalendar, { AlarmCalendarHandle } from '../components/AlarmCalendar';
-import { Potion } from '../models/Manager';
 import { useManager } from '../ManagerContext';
 
-type AddAlarmRouteProp = RouteProp<NaviStackList, 'AddAlarm'>;
 
 export default function AddAlarmScreen({ navigation, route }: any) {
   const { potion } = route.params;console.log("potion:" + JSON.stringify(potion)); 

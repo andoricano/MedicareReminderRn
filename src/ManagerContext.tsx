@@ -6,7 +6,6 @@ import { getDBConnection, createPotionTable, getPotions, addPotion, updatePotion
 type ManagerContextType = {
   managers: Potion[];
   setManagers: React.Dispatch<React.SetStateAction<Potion[]>>;
-  loadPotions: () => Promise<void>;
   addPotionCtx: (potion: Omit<Potion, "id">) => Promise<void>;
   updatePotionCtx: (potion: Potion) => Promise<void>;
   deletePotionCtx: (id: string) => Promise<void>;
@@ -21,29 +20,28 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
   const [managers, setManagers] = useState<Potion[]>([]);
   var [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
 
+  
   useEffect(() => {
     (async () => {
-        db = await getDBConnection();
-        console.log("DB 연결 성공!!:", db);
-        await createPotionTable(db);
-        console.log("DB table 초기화 성공!!:", db);
+      const connection = await getDBConnection();
+      console.log("DB 연결 성공!!:", connection);
+
+      await createPotionTable(connection);
+      console.log("DB table 초기화 성공!!:", connection);
+
+      setDb(connection); // ✅ state로 갱신
+
+      const data = await getPotions(connection); 
+      setManagers(data);
     })();
   }, []);
 
-  // READ
-  const loadPotions = async (database?: SQLite.SQLiteDatabase) => {
-    const dbToUse = database || db;
-    if (!dbToUse) throw new Error("DB가 아직 열리지 않음");
-    const data = await getPotions(dbToUse);
-    setManagers(data);
-  };
-
   // CREATE
   const addPotionCtx = async (potion: Omit<Potion, "id">) => {
-  if (!db) throw new Error("DB가 아직 열리지 않음");
-  const id: string = await addPotion(db, potion); // id 타입 명시
-  setManagers(prev => [...prev, { ...potion, id }]);
-};
+    if (!db) throw new Error("DB가 아직 열리지 않음");
+    const id: string = await addPotion(db, potion);
+    setManagers(prev => [...prev, { ...potion, id }]);
+  };
 
   // UPDATE
   const updatePotionCtx = async (potion: Potion) => {
@@ -67,7 +65,7 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
   };
   return (
     <ManagerContext.Provider
-      value={{ managers, setManagers, loadPotions, addPotionCtx, updatePotionCtx, deletePotionCtx, deleteAllPotionsCtx }}
+      value={{ managers, setManagers, addPotionCtx, updatePotionCtx, deletePotionCtx, deleteAllPotionsCtx }}
     >
       {children}
     </ManagerContext.Provider>

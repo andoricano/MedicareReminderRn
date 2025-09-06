@@ -31,9 +31,6 @@ const PotionList = ({ data }: { data: Potion[]; }) => {
 export default function HomeScreen({ navigation }: any) {
   const { managers, loadPotions } = useManager(); // loadPotions 포함
 
-  useEffect(() => {
-    loadPotions();
-  }, []);
   
   return (
     <BaseScreen style={styles.center}>

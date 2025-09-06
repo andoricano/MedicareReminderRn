@@ -67,30 +67,47 @@ export const addPotion = async (
   return id;
 };
 
-// READ
 export const getPotions = async (db: SQLite.SQLiteDatabase): Promise<Potion[]> => {
-  const results = await db.executeSql("SELECT * FROM potion;");
-  const rows = results[0].rows;
-  const potions: Potion[] = [];
+  return new Promise<Potion[]>((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM potion;",
+        [],
+        (_, results) => {
+          console.log("try getPotions!!2");
 
-  for (let i = 0; i < rows.length; i++) {
-    const item = rows.item(i);
-    potions.push({
-      id: item.id,
-      name: item.name,
-      eatingType: item.eatingType as Eating, // 문자열 → enum 캐스팅
-      time: item.time,
-      bundleNum: item.bundleNum,
-      Todo: item.Todo,
-      ate: item.ate,
-      totalNum: item.totalNum,
-      eatingNum: item.eatingNum,
-      restNum: item.restNum,
-      description: item.description,
+          const rows = results.rows;
+          const potions: Potion[] = [];
+
+          for (let i = 0; i < rows.length; i++) {
+            const item = rows.item(i);
+            potions.push({
+              id: item.id,
+              name: item.name,
+              eatingType: item.eatingType as Eating,
+              time: item.time,
+              bundleNum: item.bundleNum,
+              Todo: item.Todo,
+              ate: item.ate,
+              totalNum: item.totalNum,
+              eatingNum: item.eatingNum,
+              restNum: item.restNum,
+              description: item.description,
+            });
+          }
+
+          resolve(potions);
+        },
+        (_, error) => {
+          console.error("getPotions error:", error);
+          reject(error);
+          return false; // rollback 안 함
+        }
+      );
     });
-  }
-  return potions;
+  });
 };
+
 // UPDATE
 export const updatePotion = async (
   db: SQLite.SQLiteDatabase,
