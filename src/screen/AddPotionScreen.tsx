@@ -6,6 +6,13 @@ import uuid from "react-native-uuid";
 import BaseScreen from './BaseScreen';
 import { Potion, Eating } from "../models/Manager";
 
+const exampleName = [
+  text.add_screen_recovery,
+  text.add_screen_nourishment,
+  text.add_screen_fatigue,
+  text.add_screen_hair_loss,
+]
+
 const fields = [
   { key: 'name', type: 'input', label: text.add_screen_name_txt, placeholder: '이름 입력' },
   { key: 'type', type: 'button', label: text.add_screen_type_txt, onPress: () => console.log('type') },
@@ -15,14 +22,14 @@ const fields = [
 ];
 
 export default function AddPotionScreen({ navigation }: any) {
-  const randomString = () => Math.random().toString(36).substring(2, 7);
+  const randomExample = getRandomExample();
   const bundleNum = Math.floor(Math.random() * 100)
   const [values, setValues] = useState<Record<string, string>>({
-    name: `name_${randomString()}`,
+    name: randomExample,
     type: 'Capsule',
     bundleNum: `${bundleNum}`,
     todo: `${bundleNum - 1}`,
-    description: `desc_${randomString()}`,
+    description: randomExample
   });
 
   const makePotion = (): Potion => ({
@@ -91,6 +98,10 @@ export default function AddPotionScreen({ navigation }: any) {
     </BaseScreen>
   );
 }
+const getRandomExample = () => {
+  const index = Math.floor(Math.random() * exampleName.length);
+  return exampleName[index];
+};
 
 const styles = StyleSheet.create({
   title: { fontSize: 30, fontWeight: 'bold', marginBottom: 20 },
