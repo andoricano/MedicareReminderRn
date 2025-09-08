@@ -1,23 +1,23 @@
 {
-  "title_screen_title":"오늘의 영양제",
-  "title_screen_callendar_btn":"이력 보기",
-  "title_screen_list_btn":"영양제 목록",
-
-  "alarm_list_screen_title":"나의 영양제 창고",
-  "alarm_list_screen_item_key_info":"이름 : ",
-  "alarm_list_screen_item_total_info":"종류 : ",
-  "alarm_list_screen_item_type_info":"개수 : ",
-
-  "add_screen_title":"알람 추가",
-  "add_screen_save_btn":"저장",
-  "add_screen_out_btn":"취소",
-  "add_screen_name_txt":"이름",
+  "title_screen_title": "오늘의 영양제",
+  "title_screen_callendar_btn": "이력 보기",
+  "title_screen_list_btn": "영양제 목록",
+  "alarm_list_screen_title": "나의 영양제 창고",
+  "alarm_list_screen_item_key_info": "이름 : ",
+  "alarm_list_screen_item_total_info": "종류 : ",
+  "alarm_list_screen_item_type_info": "개수 : ",
+  "add_screen_title": "알람 추가",
+  "add_screen_save_btn": "저장",
+  "add_screen_out_btn": "취소",
+  "add_screen_name_txt": "이름",
   "add_screen_type_txt": "종류",
   "add_screen_description_txt": "설명",
   "add_screen_bundle_num_txt": "한 묶음의 수",
-  "add_screen_todo_num_txt":"전체 개수",
-
-  "history_screen_title":"영양제 이력",
-
-  "deatil_screen_title":"세부 이력"
+  "add_screen_todo_num_txt": "전체 개수",
+  "add_screen_recovery": "원기 회복",
+  "add_screen_nourishment": "자양 증강",
+  "add_screen_fatigue": "피로 감소",
+  "add_screen_hair_loss": "탈모 완화",
+  "history_screen_title": "영양제 이력",
+  "deatil_screen_title": "세부 이력"
 }

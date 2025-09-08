@@ -2,12 +2,10 @@
   "title_screen_title": "Today's Supplements",
   "title_screen_callendar_btn": "View History",
   "title_screen_list_btn": "Supplement List",
-
   "alarm_list_screen_title": "My Supplement Storage",
   "alarm_list_screen_item_key_info": "Name: ",
   "alarm_list_screen_item_total_info": "Type: ",
   "alarm_list_screen_item_type_info": "Quantity: ",
-
   "add_screen_title": "Add Supplement",
   "add_screen_save_btn": "Save",
   "add_screen_out_btn": "Cancel",
@@ -15,5 +13,11 @@
   "add_screen_type_txt": "Type",
   "add_screen_description_txt": "Description",
   "add_screen_bundle_num_txt": "Units per Bundle",
-  "add_screen_todo_num_txt": "Total Quantity"
+  "add_screen_todo_num_txt": "Total Quantity",
+  "add_screen_recovery": "Recovery of vitality",
+  "add_screen_nourishment": "Nourishment",
+  "add_screen_fatigue": "Fatigue reduction",
+  "add_screen_hair_loss": "Hair loss relief",
+  "history_screen_title": "Supplement history",
+  "deatil_screen_title": "Detailed history"
 }
