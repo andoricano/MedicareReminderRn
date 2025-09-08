@@ -30,8 +30,6 @@ export const getDBConnection = (
 };
 
 export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
-  console.log("createPotionTable ok?", db)
-
   db.transaction((tx) => {
     tx.executeSql(
       `
@@ -51,22 +49,17 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
       `
     )
   })
-  console.log("createPotionTable goood!!!", db)
 };
 export const getPotions = (
   db: SQLite.SQLiteDatabase,
   onSuccess: (potions: Potion[]) => void,
   onError: (err: any) => void
 ) => {
-  console.log("getPotions", db);
-
   db.transaction(tx => {
     tx.executeSql(
       "SELECT * FROM potion;",
       [],
       (_, results) => {
-        console.log("try getPotions!!2");
-
         const rows = results.rows;
         const potions: Potion[] = [];
 
@@ -90,7 +83,6 @@ export const getPotions = (
         onSuccess(potions);
       },
       (_, error) => {
-        console.error("getPotions error:", error);
         onError(error);
         return false;
       }
@@ -126,18 +118,15 @@ export const addPotion = (
           potion.description || "",
         ],
         (_, results) => {
-          console.log("✅ addPotion success", id, results);
           onSuccess(id);
         },
         (_, error) => {
-          console.error("❌ addPotion error:", error);
           onError(error);
-          return false; // rollback 안 함
+          return false;
         }
       );
     },
     error => {
-      console.error("❌ transaction error:", error);
       onError(error);
     }
   );
@@ -183,17 +172,14 @@ export const updatePotion = (
         potion.id,
       ],
       () => {
-        console.log("✅ updatePotion success", potion.id);
         onSuccess();
       },
       (_, error) => {
-        console.error("❌ updatePotion error:", error);
         onError(error);
         return false;
       }
     );
   }, err => {
-    console.error("❌ transaction error (updatePotion):", err);
     onError(err);
   });
 };
@@ -212,17 +198,14 @@ export const deletePotion = (
       query,
       [id],
       () => {
-        console.log("✅ deletePotion success", id);
         onSuccess();
       },
       (_, error) => {
-        console.error("❌ deletePotion error:", error);
         onError(error);
         return false;
       }
     );
   }, err => {
-    console.error("❌ transaction error (deletePotion):", err);
     onError(err);
   });
 };
@@ -238,17 +221,14 @@ export const deleteAllPotions = (
       "DELETE FROM potion;",
       [],
       () => {
-        console.log("✅ deleteAllPotions success");
         onSuccess();
       },
       (_, error) => {
-        console.error("❌ deleteAllPotions error:", error);
         onError(error);
         return false;
       }
     );
   }, err => {
-    console.error("❌ transaction error (deleteAllPotions):", err);
     onError(err);
   });
 };

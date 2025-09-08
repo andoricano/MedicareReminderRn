@@ -1,6 +1,4 @@
 import React, { useRef } from 'react';
-import { RouteProp } from '@react-navigation/native';
-import { NaviStackList } from './NaviStack';
 import { View, Button, StyleSheet } from 'react-native';
 
 import BaseScreen from './BaseScreen';

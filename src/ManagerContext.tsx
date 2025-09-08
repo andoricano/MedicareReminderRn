@@ -74,7 +74,6 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
       db,
       potion,
       () => {
-        // 성공 시 상태 업데이트
         setManagers(prev => prev.map(p => p.id === potion.id ? potion : p));
       },
       err => {
@@ -90,7 +89,6 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
       db,
       id,
       () => {
-        // 성공 시 상태 업데이트
         setManagers(prev => prev.filter(p => p.id !== id));
       },
       err => {
@@ -105,7 +103,6 @@ export const ManagerProvider = ({ children }: { children: ReactNode }) => {
     deleteAllPotions(
       db,
       () => {
-        // 성공 시 상태 초기화
         setManagers([]);
       },
       err => {

@@ -42,12 +42,6 @@ export default function AlarmListScreen({ navigation }: any) {
           title="AddPotion"
           onPress={() => navigation.navigate('AddPotion')}
         />
-        <Button
-          title="CheckList"
-          onPress={() => {
-            console.log("checked List==>",managers[0], managers);
-          }}
-        />
       </View>
     </BaseScreen>
   );
