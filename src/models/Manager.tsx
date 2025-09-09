@@ -14,6 +14,7 @@ export type Potion = {
 
 export enum Eating {
   None = "None",
+  Eating = "Eating",
   Capsule = "Capsule",
   Gel = "Gel",
   Raw = "Raw",

@@ -1,10 +1,52 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { Pressable, KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSheet, TextInput, FlatList } from 'react-native';
 import text from '../locales/ko.json'
 import uuid from "react-native-uuid";
 
 import BaseScreen from './BaseScreen';
 import { Potion, Eating } from "../models/Manager";
+
+const eatingList = Object.values(Eating);
+export function EatingList() {
+  const [selected, setSelected] = useState<Eating | null>(null);
+
+  const grouped = [];
+  for (let i = 0; i < eatingList.length; i += 2) {
+    grouped.push(eatingList.slice(i, i + 2));
+  }
+
+  return (
+    <FlatList
+      data={grouped}
+      keyExtractor={(_, index) => index.toString()}
+      horizontal
+      renderItem={({ item }) => (
+        <View style={styles.column}>
+          {item.map((e) => {
+            const isSelected = e === selected;
+            return (
+              <Pressable
+                key={e}
+                onPress={() => {
+                  console.log("Pressed:", e);
+                  setSelected(e)
+                }}
+                style={({ pressed }) => [
+                  styles.row,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <Text>
+                  {e} {isSelected ? "✔" : ""}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
+    />
+  );
+}
 
 const exampleName = [
   text.add_screen_recovery,
@@ -14,9 +56,6 @@ const exampleName = [
 ]
 
 const fields = [
-  { key: 'name', type: 'input', label: text.add_screen_name_txt, placeholder: '이름 입력' },
-  { key: 'type', type: 'button', label: text.add_screen_type_txt, onPress: () => console.log('type') },
-  { key: 'bundleNum', type: 'button', label: text.add_screen_bundle_num_txt, onPress: () => console.log('key') },
   { key: 'todo', type: 'button', label: text.add_screen_todo_num_txt, onPress: () => console.log('todo') },
   { key: 'description', type: 'input', label: text.add_screen_description_txt, placeholder: '설명 입력' },
 ];
@@ -54,37 +93,22 @@ export default function AddPotionScreen({ navigation }: any) {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', padding: 20 }}>
           <Text style={styles.title}>{text.add_screen_title}</Text>
-
-
-          <View style={{ gap: 16 }}>
-            {fields.map((field) => (
-              <View key={field.key}>
-                <Text style={styles.scheme}>{field.label}</Text>
-
-                {field.type === 'input' && (
-                  <TextInput
-                    style={styles.input}
-                    placeholder={field.placeholder}
-                    value={values[field.key]}
-                    onChangeText={(text) =>
-                      setValues((prev) => ({ ...prev, [field.key]: text }))
-                    }
-                  />
-                )}
-
-                {field.type === 'button' && (
-                  <Button
-                    title={field.label}
-                    onPress={() => {
-                      if (field.key === 'type') setValues(prev => ({ ...prev, type: 'Capsule' }));
-                      if (field.key === 'bundleNum') setValues(prev => ({ ...prev, bundleNum: (prev.todo || '') + '1' }));
-                      if (field.key === 'todo') setValues(prev => ({ ...prev, todo: (prev.todo || '') + '1' }));
-                    }}
-                  />
-                )}
-              </View>
-            ))}
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.label}>{text.add_screen_name_txt}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder={text.add_screen_name_txt_place_holder}
+              value={values["name"]}
+              onChangeText={(text) =>
+                setValues((prev) => ({ ...prev, name: text }))
+              }
+            />
           </View>
+          <View style={{ width: '100%', height: 200 }}>
+            <EatingList />
+          </View>
+
+
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
             <Button title={text.add_screen_out_btn} onPress={() => navigation.goBack()} />
             <Button title={text.add_screen_save_btn} onPress={() => {
@@ -98,6 +122,8 @@ export default function AddPotionScreen({ navigation }: any) {
     </BaseScreen>
   );
 }
+
+
 const getRandomExample = () => {
   const index = Math.floor(Math.random() * exampleName.length);
   return exampleName[index];
@@ -105,7 +131,7 @@ const getRandomExample = () => {
 
 const styles = StyleSheet.create({
   title: { fontSize: 30, fontWeight: 'bold', marginBottom: 20 },
-  scheme: { fontSize: 23, fontWeight: 'bold', marginBottom: 8 },
+  label: { fontSize: 25, fontWeight: 'bold', marginBottom: 10 },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -113,5 +139,26 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     marginBottom: 12,
+  },
+  row: {
+    flex: 1,
+    margin: 4,
+    padding: 12,
+    borderWidth: 2,
+    borderRadius: 40, 
+    borderColor: "#ddd",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pressed: {
+    backgroundColor: "#a43838ff",
+  },
+  cell: {
+    flex: 1,
+    marginRight: 10,
+  },
+  column: {
+    flexDirection: "column",
+    marginRight: 8,
   },
 });

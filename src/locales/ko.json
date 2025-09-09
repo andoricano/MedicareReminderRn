@@ -10,6 +10,7 @@
   "add_screen_save_btn": "저장",
   "add_screen_out_btn": "취소",
   "add_screen_name_txt": "이름",
+  "add_screen_name_txt_place_holder": "이름 입력",
   "add_screen_type_txt": "종류",
   "add_screen_description_txt": "설명",
   "add_screen_bundle_num_txt": "한 묶음의 수",
