@@ -18,8 +18,8 @@ import { ManagerProvider } from './src/ManagerContext';
 import HomeScreen from './src/screen/HomeScreen';
 import DetailScreen from './src/screen/DetailScreen';
 import AlarmListScreen from './src/screen/AlarmListScreen';
-import AddAlarmScreen from './src/screen/AddAlarmScreen';
-import AddPotionScreen from './src/screen/AddPotionScreen';
+import AddAlarmScreen from './src/screen/add_alarm/AddAlarmScreen';
+import AddPotionScreen from './src/screen/add_potion/AddPotionScreen';
 import CalendarScreen from './src/screen/HistoryScreen';
 import { NaviStackList } from './src/screen/NaviStack';
 

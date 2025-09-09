@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Pressable, KeyboardAvoidingView, Platform, ScrollView, View, Text, Button, StyleSheet, TextInput, FlatList } from 'react-native';
-import text from '../locales/ko.json'
+import text from '../../locales/ko.json'
 import uuid from "react-native-uuid";
 
-import BaseScreen from './BaseScreen';
-import { Potion, Eating } from "../models/Manager";
-
+import BaseScreen from '../BaseScreen';
+import { Potion, Eating } from "../../models/Manager";
+import { PotionListItem } from './PotionListItem';
 const eatingList = Object.values(Eating);
+
 export function EatingList() {
   const [selected, setSelected] = useState<Eating | null>(null);
 
-  const grouped = [];
+  const grouped: Eating[][] = [];
   for (let i = 0; i < eatingList.length; i += 2) {
     grouped.push(eatingList.slice(i, i + 2));
   }
@@ -22,26 +23,19 @@ export function EatingList() {
       horizontal
       renderItem={({ item }) => (
         <View style={styles.column}>
-          {item.map((e) => {
-            const isSelected = e === selected;
-            return (
-              <Pressable
-                key={e}
-                onPress={() => {
-                  console.log("Pressed:", e);
-                  setSelected(e)
-                }}
-                style={({ pressed }) => [
-                  styles.row,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <Text>
-                  {e} {isSelected ? "✔" : ""}
-                </Text>
-              </Pressable>
-            );
-          })}
+          {item.map((e) => (
+            <PotionListItem
+              key={e}
+              item={e}
+              selected={selected}
+              onPress={(val) => {
+                console.log("Pressed ===>", val);
+                setSelected(val as Eating);
+              }}
+              style={styles.row} 
+              width={120}
+            />
+          ))}
         </View>
       )}
     />
@@ -104,7 +98,7 @@ export default function AddPotionScreen({ navigation }: any) {
               }
             />
           </View>
-          <View style={{ width: '100%', height: 200 }}>
+          <View style={{ width: '100%', height: 160 }}>
             <EatingList />
           </View>
 

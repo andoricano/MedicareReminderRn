@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
-import BaseScreen from './BaseScreen';
-import AlarmCalendar, { AlarmCalendarHandle } from '../components/AlarmCalendar';
-import { useManager } from '../ManagerContext';
+import BaseScreen from '../BaseScreen';
+import AlarmCalendar, { AlarmCalendarHandle } from '../../components/AlarmCalendar';
+import { useManager } from '../../ManagerContext';
 
 
 export default function AddAlarmScreen({ navigation, route }: any) {
