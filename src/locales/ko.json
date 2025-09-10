@@ -13,6 +13,7 @@
   "add_screen_name_txt_place_holder": "이름 입력",
   "add_screen_type_txt": "종류",
   "add_screen_description_txt": "설명",
+  "add_screen_description_place_holder": "세부 설명을 적어주세요.",
   "add_screen_bundle_num_txt": "한 묶음의 수",
   "add_screen_todo_num_txt": "전체 개수",
   "add_screen_recovery": "원기 회복",
