@@ -1,13 +1,17 @@
 import text from '../../locales/ko.json'
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { Potion, Eating } from "../../models/Manager";
+import { Eating } from "../../models/Manager";
 
 
 import { PotionListItem } from './PotionListItem';
 const eatingList = Object.values(Eating);
 
-export function EatingList() {
+type EatingListProps = {
+  onSelect: (selected: Eating) => void;
+};
+
+export function EatingList({ onSelect }: EatingListProps) {
     const [selected, setSelected] = useState<Eating | null>(null);
 
     const grouped: Eating[][] = [];
@@ -31,7 +35,7 @@ export function EatingList() {
                                     item={e}
                                     selected={selected}
                                     onPress={(val) => {
-                                        console.log("Pressed ===>", val);
+                                        onSelect(val as Eating)
                                         setSelected(val as Eating);
                                     }}
                                     style={styles.row}

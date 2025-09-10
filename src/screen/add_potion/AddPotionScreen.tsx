@@ -14,31 +14,37 @@ const exampleName = [
   text.add_screen_fatigue,
   text.add_screen_hair_loss,
 ]
+type AddingEatting = {
+  name: string;
+  type: Eating;
+  bundleNum: string;
+  todo: string;
+  description: string;
+};
 
 export default function AddPotionScreen({ navigation }: any) {
   const randomExample = getRandomExample();
-  const randomExample2 = getRandomExample();
   const bundleNum = Math.floor(Math.random() * 100)
-  const [values, setValues] = useState<Record<string, string>>({
+  const [eatingValues, setEatingValues] = useState<AddingEatting>({
     name: randomExample,
-    type: 'Capsule',
+    type: Eating.None,
     bundleNum: `${bundleNum}`,
     todo: `${bundleNum - 1}`,
-    description: randomExample2
+    description: ""
   });
 
   const makePotion = (): Potion => ({
     id: String(uuid.v4()),
-    name: values.name,
-    eatingType: Eating.Capsule,
+    name: eatingValues.name,
+    eatingType: eatingValues.type,
     time: new Date().toISOString(),
-    bundleNum: parseInt(values.bundleNum, 10),
-    Todo: parseInt(values.bundleNum, 10),
+    bundleNum: parseInt(eatingValues.bundleNum, 10),
+    Todo: parseInt(eatingValues.bundleNum, 10),
     ate: 0,
     totalNum: 0,
     eatingNum: 0,
     restNum: 0,
-    description: values.description,
+    description: eatingValues.description,
   });
 
   return (
@@ -52,17 +58,23 @@ export default function AddPotionScreen({ navigation }: any) {
 
           <AddAlarmInput
             label={text.add_screen_description_txt}
-            placeholder={text.add_screen_description_place_holder}
-            value={values.description}
-            onChangeText={(desc) => setValues((prev) => ({ ...prev, description: desc }))}
+            placeholder={text.add_screen_name_txt_place_holder}
+            value={eatingValues.name}
+            onChangeText={(text) => setEatingValues((prev) => ({ ...prev, name: text }))}
           />
-          <EatingList />
+          
+          <EatingList
+            onSelect={(selectedType) => {
+              console.log("선택된 타입:", selectedType);
+              setEatingValues((prev) => ({ ...prev, type: selectedType }));
+            }}
+          />
 
           <AddAlarmInput
             label={text.add_screen_description_txt}
             placeholder={text.add_screen_description_place_holder}
-            value={values.description}
-            onChangeText={(desc) => setValues((prev) => ({ ...prev, description: desc }))}
+            value={eatingValues.description}
+            onChangeText={(text) => setEatingValues((prev) => ({ ...prev, description: text }))}
           />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>

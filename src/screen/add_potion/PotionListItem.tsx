@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff", // 기본 배경
+    backgroundColor: "#fff",
   },
   pressed: {
     opacity: 0.5,
