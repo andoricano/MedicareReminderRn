@@ -37,7 +37,7 @@ export default function AddPotionScreen({ navigation }: any) {
     id: String(uuid.v4()),
     name: eatingValues.name,
     eatingType: eatingValues.type,
-    time: new Date().toISOString(),
+    times: [Date.now().toString()],
     bundleNum: parseInt(eatingValues.bundleNum, 10),
     Todo: parseInt(eatingValues.bundleNum, 10),
     ate: 0,

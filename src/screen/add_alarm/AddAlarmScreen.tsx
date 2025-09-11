@@ -10,7 +10,7 @@ import text from '../../locales/ko.json'
 type AddingAlarm = {
   cycle: number,
   todoNum: number,
-  alarmList: number[]
+  alarmList: string[]
 };
 
 export default function AddAlarmScreen({ navigation, route }: any) {
@@ -19,7 +19,7 @@ export default function AddAlarmScreen({ navigation, route }: any) {
     todoNum: -1,
     alarmList: [],
   });
-  const { potion } = route.params; console.log("potion:" + JSON.stringify(potion));
+  const { potion } = route.params;
   const { addPotionCtx } = useManager();
   return (
     <BaseScreen style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -29,22 +29,41 @@ export default function AddAlarmScreen({ navigation, route }: any) {
           navigation={navigation}
           title={text.add_alarm_title}
         />
-        
 
-      <NumberSelectList
-        label={text.add_alarm_cycle_label}
-        min={0}
-        max={7}
-        onSelect={(v) => console.log('선택된 값:', v)}
-        descending ={true}
-      />
-      
-      <NumberSelectList
-        label={text.add_alarm_daily_amount_label}
-        min={1}
-        max={10}
-        onSelect={(v) => console.log('선택된 값:', v)}
-      />
+
+        <NumberSelectList
+          label={text.add_alarm_cycle_label}
+          min={1}
+          max={7}
+          onSelect={(v) => setAlarmValues(prev => ({
+            ...prev,           
+            cycle: v,        
+          }))}
+          descending={true}
+        />
+
+        <NumberSelectList
+          label={text.add_alarm_daily_amount_label}
+          min={1}
+          max={10}
+          onSelect={(v) => {
+            const startHour = 8;
+            const list = Array.from({ length: v }, (_, i) => {
+              const date = new Date();
+              date.setHours(startHour + i, 0, 0, 0);
+              return date.toISOString();
+            });
+
+            const newState = {
+              ...alarmValues,
+              todoNum: v,
+              alarmList: list,
+            };
+            setAlarmValues(newState);
+
+            console.log(`new: num=${newState.todoNum}, alarmList=[${newState.alarmList.join(', ')}]`);
+          }}
+        />
 
 
       </View>
@@ -52,7 +71,16 @@ export default function AddAlarmScreen({ navigation, route }: any) {
       <Button
         title="Done"
         onPress={async () => {
-          await addPotionCtx(potion);
+          const updatedPotion = {
+            ...potion,
+            totalNum: alarmValues.cycle,
+            times: alarmValues.alarmList,
+            Todo: alarmValues.todoNum,
+          };
+
+          console.log("updatedPotion:", JSON.stringify(updatedPotion));
+
+          await addPotionCtx(updatedPotion);
           navigation.pop(2);
         }}
       />

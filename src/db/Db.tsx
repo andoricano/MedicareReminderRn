@@ -28,27 +28,26 @@ export const getDBConnection = (
     }
   );
 };
-
 export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
   db.transaction((tx) => {
     tx.executeSql(
       `
       CREATE TABLE IF NOT EXISTS potion (
-      id TEXT PRIMARY KEY NOT NULL,
-      name TEXT NOT NULL,
-      eatingType TEXT,
-      time TEXT,
-      bundleNum INTEGER,
-      Todo INTEGER,
-      ate INTEGER,
-      totalNum INTEGER,
-      eatingNum INTEGER,
-      restNum INTEGER,
-      description TEXT
-    );
+        id TEXT PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL,
+        eatingType TEXT,
+        times TEXT,       -- TEXT로 바꾸고 JSON 문자열 저장
+        bundleNum INTEGER,
+        Todo INTEGER,
+        ate INTEGER,
+        totalNum INTEGER,
+        eatingNum INTEGER,
+        restNum INTEGER,
+        description TEXT
+      );
       `
-    )
-  })
+    );
+  });
 };
 export const getPotions = (
   db: SQLite.SQLiteDatabase,
@@ -65,11 +64,18 @@ export const getPotions = (
 
         for (let i = 0; i < rows.length; i++) {
           const item = rows.item(i);
+          let times: string[] = [];
+          try {
+            times = item.times ? JSON.parse(item.times) : [];
+          } catch {
+            times = [];
+          }
+
           potions.push({
             id: item.id,
             name: item.name,
             eatingType: item.eatingType as Eating,
-            time: item.time,
+            times,                // JSON 배열로 변환
             bundleNum: item.bundleNum,
             Todo: item.Todo,
             ate: item.ate,
@@ -89,7 +95,6 @@ export const getPotions = (
     );
   });
 };
-
 export const addPotion = (
   db: SQLite.SQLiteDatabase,
   potion: Omit<Potion, "id">,
@@ -102,13 +107,13 @@ export const addPotion = (
     tx => {
       tx.executeSql(
         `INSERT INTO potion 
-         (id, name, eatingType, time, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
+         (id, name, eatingType, times, bundleNum, Todo, ate, totalNum, eatingNum, restNum, description)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           id,
           potion.name || "",
           potion.eatingType?.toString() || "",
-          potion.time || "",
+          JSON.stringify(potion.times || []), // ← times 배열 JSON 문자열로 저장
           potion.bundleNum ?? 0,
           potion.Todo ?? 0,
           potion.ate ?? 0,
@@ -132,8 +137,6 @@ export const addPotion = (
   );
 };
 
-
-// UPDATE
 export const updatePotion = (
   db: SQLite.SQLiteDatabase,
   potion: Potion,
@@ -144,7 +147,7 @@ export const updatePotion = (
     UPDATE potion SET
       name = ?, 
       eatingType = ?, 
-      time = ?, 
+      times = ?,       -- 컬럼명 변경
       bundleNum = ?, 
       Todo = ?, 
       ate = ?, 
@@ -161,7 +164,7 @@ export const updatePotion = (
       [
         potion.name,
         potion.eatingType.toString(),
-        potion.time,
+        JSON.stringify(potion.times || []), // ← times 배열 JSON 문자열로 저장
         potion.bundleNum,
         potion.Todo,
         potion.ate,

@@ -1,14 +1,14 @@
 export type Potion = {
   id: string;
   name: string;
-  eatingType : Eating;
-  time: string;
+  eatingType: Eating;
+  times: string[];
   bundleNum: number;
-  Todo:number;
-  ate : number;
+  Todo: number;
+  ate: number;
   totalNum: number;
   eatingNum: number;
-  restNum : number;
+  restNum: number;
   description: String;
 }
 
