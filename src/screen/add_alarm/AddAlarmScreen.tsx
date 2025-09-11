@@ -36,8 +36,9 @@ export default function AddAlarmScreen({ navigation, route }: any) {
               {text.add_alarm_cycle_label}
             </Text>
           }
-          min = {0}
-          max = {24}
+          ment='매일'
+          min={-1}
+          max={7}
           onClick={(num) =>
             setAlarmValues(prev => ({ ...prev, cycle: num }))
           }
@@ -50,6 +51,29 @@ export default function AddAlarmScreen({ navigation, route }: any) {
             borderRadius: 8,
           }}
         />
+
+        <NumberStepper
+          Label={() =>
+            <Text style={styles.scheme}>
+              {text.add_alarm_daily_amount_label}
+            </Text>
+          }
+          ment='상관없음'
+          min={-1}
+          max={10}
+          onClick={(num) =>
+            setAlarmValues(prev => ({ ...prev, cycle: num }))
+          }
+          stepperStyle={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: 10,
+            padding: 10,
+            borderRadius: 8,
+          }}
+        />
+
 
       </View>
 

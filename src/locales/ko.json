@@ -21,7 +21,9 @@
   "add_screen_fatigue": "피로 감소",
   "add_screen_hair_loss": "탈모 완화",
   "add_alarm_title": "알림 설정",
-  "add_alarm_cycle_label": "먹는 주기",
+  "add_alarm_cycle_label": "일주일에 몇 번 드시나요?",
+  "add_alarm_daily_amount_label": "하루에 얼마나 드셔야 하나요?",
+  "add_alarm_daily_alarm_label": "알려드릴 시간을 설정해주세요.",
   "history_screen_title": "영양제 이력",
   "deatil_screen_title": "세부 이력"
 }
