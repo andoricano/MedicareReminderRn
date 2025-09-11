@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, Text, View, Button, StyleSheet } from 'react-native';
 import { ScreenHeader } from '../../components/ScreenHeader';
-
+import { NumberSelectList } from '../../components/NumberSelectList';
 import BaseScreen from '../BaseScreen';
 import { useManager } from '../../ManagerContext';
 import { NumberStepper } from '../../components/NumberStepper';
@@ -29,50 +29,22 @@ export default function AddAlarmScreen({ navigation, route }: any) {
           navigation={navigation}
           title={text.add_alarm_title}
         />
+        
 
-        <NumberStepper
-          Label={() =>
-            <Text style={styles.scheme}>
-              {text.add_alarm_cycle_label}
-            </Text>
-          }
-          ment='매일'
-          min={-1}
-          max={7}
-          onClick={(num) =>
-            setAlarmValues(prev => ({ ...prev, cycle: num }))
-          }
-          stepperStyle={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 10,
-            padding: 10,
-            borderRadius: 8,
-          }}
-        />
-
-        <NumberStepper
-          Label={() =>
-            <Text style={styles.scheme}>
-              {text.add_alarm_daily_amount_label}
-            </Text>
-          }
-          ment='상관없음'
-          min={-1}
-          max={10}
-          onClick={(num) =>
-            setAlarmValues(prev => ({ ...prev, cycle: num }))
-          }
-          stepperStyle={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 10,
-            padding: 10,
-            borderRadius: 8,
-          }}
-        />
+      <NumberSelectList
+        label={text.add_alarm_cycle_label}
+        min={0}
+        max={7}
+        onSelect={(v) => console.log('선택된 값:', v)}
+        descending ={true}
+      />
+      
+      <NumberSelectList
+        label={text.add_alarm_daily_amount_label}
+        min={1}
+        max={10}
+        onSelect={(v) => console.log('선택된 값:', v)}
+      />
 
 
       </View>
