@@ -1,15 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import text from '../../locales/ko.json';
-
-
-type Props = {
-    label: string;
-    value: string;
-    onChangeText: (text: string) => void;
-    placeholder: string;
-    height?: number;
-};
+import { Props } from '../../components/BaseTextInput';
 
 export function AddAlarmInput({ label, value, onChangeText, placeholder, height = 30 }: Props) {
     return (

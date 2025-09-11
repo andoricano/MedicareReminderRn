@@ -1,33 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
 import BaseScreen from '../BaseScreen';
-import AlarmCalendar, { AlarmCalendarHandle } from '../../components/AlarmCalendar';
 import { useManager } from '../../ManagerContext';
 
 
+type AddingAlarm = {
+  daily : number,
+  todoNum : number,
+  alarmList : number[]
+};
+
 export default function AddAlarmScreen({ navigation, route }: any) {
-  const { potion } = route.params;console.log("potion:" + JSON.stringify(potion)); 
+  const [alarmValues, setAlarmValues] = useState<AddingAlarm>({
+    daily: -1,
+    todoNum: -1,
+    alarmList : [],
+  });
+  const { potion } = route.params; console.log("potion:" + JSON.stringify(potion));
   const { addPotionCtx } = useManager();
-  const calendarRef = useRef<AlarmCalendarHandle>(null);
   return (
     <BaseScreen style={{ flex: 1 }}>
       <Button
         title="back"
         onPress={() => navigation.pop()}
       />
-      <AlarmCalendar ref={calendarRef} />
       <View style={{ width: 250, margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Button title="allcheck" onPress={() => calendarRef.current?.selectAll()} />
-        <Button title="2day check" onPress={() => calendarRef.current?.select2Days()} />
+        <Button title="allcheck" onPress={() => { }} />
+        <Button title="2day check" onPress={() => { }} />
+
+      </View>
         <Button
           title="Done"
-          onPress={async () => {       
+          onPress={async () => {
             await addPotionCtx(potion);
-            navigation.pop(2);  
+            navigation.pop(2);
           }}
         />
-      </View>
     </BaseScreen>
   );
 }

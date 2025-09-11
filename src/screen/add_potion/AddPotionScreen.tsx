@@ -6,7 +6,7 @@ import uuid from "react-native-uuid";
 import BaseScreen from '../BaseScreen';
 import { Potion, Eating } from "../../models/Manager";
 import { EatingList } from './PotionList';
-import { AddAlarmInput } from './BaseTextInput';
+import { AddAlarmInput } from './AddTextInput';
 
 const exampleName = [
   text.add_screen_recovery,
