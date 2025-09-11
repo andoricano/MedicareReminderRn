@@ -20,6 +20,8 @@
   "add_screen_nourishment": "자양 증강",
   "add_screen_fatigue": "피로 감소",
   "add_screen_hair_loss": "탈모 완화",
+  "add_alarm_title": "알림 설정",
+  "add_alarm_cycle_label": "먹는 주기",
   "history_screen_title": "영양제 이력",
   "deatil_screen_title": "세부 이력"
 }
