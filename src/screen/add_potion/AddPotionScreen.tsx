@@ -57,12 +57,13 @@ export default function AddPotionScreen({ navigation }: any) {
           <Text style={styles.title}>{text.add_screen_title}</Text>
 
           <AddAlarmInput
-            label={text.add_screen_description_txt}
+            label={text.add_screen_name_txt}
             placeholder={text.add_screen_name_txt_place_holder}
             value={eatingValues.name}
             onChangeText={(text) => setEatingValues((prev) => ({ ...prev, name: text }))}
+            height={100}
           />
-          
+
           <EatingList
             onSelect={(selectedType) => {
               console.log("선택된 타입:", selectedType);
@@ -75,6 +76,7 @@ export default function AddPotionScreen({ navigation }: any) {
             placeholder={text.add_screen_description_place_holder}
             value={eatingValues.description}
             onChangeText={(text) => setEatingValues((prev) => ({ ...prev, description: text }))}
+            height={200}
           />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>

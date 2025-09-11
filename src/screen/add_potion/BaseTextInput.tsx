@@ -4,21 +4,24 @@ import text from '../../locales/ko.json';
 
 
 type Props = {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
+    label: string;
+    value: string;
+    onChangeText: (text: string) => void;
+    placeholder: string;
+    height?: number;
 };
 
-export function AddAlarmInput({ label, value, onChangeText, placeholder }: Props) {
+export function AddAlarmInput({ label, value, onChangeText, placeholder, height = 30 }: Props) {
     return (
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: 'column', height }}>
             <Text style={styles.label}>{label}</Text>
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
+                multiline={true}    
+                textAlignVertical="top"
             />
         </View>
     );
@@ -32,6 +35,6 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: 10,
         fontSize: 18,
-        marginBottom: 12,
+        flex: 1,
     },
 });
