@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Pressable, Text, View, Button, StyleSheet } from 'react-native';
 import { ScreenHeader } from '../../components/ScreenHeader';
+import { SelectListItem } from '../../components/SelectListItem';
 import { NumberSelectList } from '../../components/NumberSelectList';
 import BaseScreen from '../BaseScreen';
 import { useManager } from '../../ManagerContext';
-import { NumberStepper } from '../../components/NumberStepper';
 import text from '../../locales/ko.json'
 
 type AddingAlarm = {
-  cycle: number,
+  dayOfWeek: string,
   todoNum: number,
   alarmList: string[]
 };
 
 export default function AddAlarmScreen({ navigation, route }: any) {
   const [alarmValues, setAlarmValues] = useState<AddingAlarm>({
-    cycle: 0,
+    dayOfWeek: "",
     todoNum: -1,
     alarmList: [],
   });
@@ -30,16 +30,28 @@ export default function AddAlarmScreen({ navigation, route }: any) {
           title={text.add_alarm_title}
         />
 
-
-        <NumberSelectList
+        <SelectListItem
           label={text.add_alarm_cycle_label}
-          min={1}
-          max={7}
-          onSelect={(v) => setAlarmValues(prev => ({
-            ...prev,           
-            cycle: v,        
-          }))}
-          descending={true}
+          list={
+            [
+              text.common_mon,
+              text.common_tue,
+              text.common_wed,
+              text.common_thu,
+              text.common_fri,
+              text.common_sat,
+              text.common_sun
+                         ]}
+          descending={false}
+          multiSelect={true}
+          showSelectAll={true}
+          onSelect={(values) =>
+            console.log(values)
+            // setAlarmValues((prev) => ({
+            //   ...prev,
+            //   dayOfWeek: values,
+            // }))
+          }
         />
 
         <NumberSelectList
@@ -73,7 +85,6 @@ export default function AddAlarmScreen({ navigation, route }: any) {
         onPress={async () => {
           const updatedPotion = {
             ...potion,
-            totalNum: alarmValues.cycle,
             times: alarmValues.alarmList,
             Todo: alarmValues.todoNum,
           };
