@@ -35,12 +35,10 @@ export default function AddAlarmScreen({ navigation, route }: any) {
           onSelect={(values) => console.log(values)}
         />
 
-        <View style={{ flex: 1 }}>
-          <AddDailyAlarmList 
-          item={["202", "2023", "2302", "3202"]}
-          onAdd={()=> console.log("yeah")}
-           />
-        </View>
+        <AddDailyAlarmList
+          item={["202", "2023", "2302", "3202","202", "2023", "2302", "3202"]}
+          onAdd={() => console.log("yeah")}
+        />
       </View>
 
       <View style={{ padding: 16 }}>
