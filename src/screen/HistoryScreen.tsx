@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, Pressable, View, StyleSheet } from "react-native";
 import BaseScreen from "./BaseScreen";
 import AlarmCalendar from "../components/AlarmCalendar";
 import { CommonList } from "../components/CommonList";
+import { useManager } from '../ManagerContext';
+
 
 type Potion = {
   id: string;
@@ -14,21 +16,13 @@ type Potion = {
 
 export default function HistoryScreen() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { managers, loadPotions } = useManager();
 
-  // tmp data
-  const [potions, setPotions] = useState<Potion[]>([
-    { id: "1", name: "Potion A", date: "2025-09-16", eatingType: "Type1", totalNum: 2 },
-    { id: "2", name: "Potion B", date: "2025-09-17", eatingType: "Type2", totalNum: 1 },
-    { id: "3", name: "Potion C", date: "2025-09-16", eatingType: "Type1", totalNum: 3 },
-  ]);
+  useEffect(()=>{
+    loadPotions();
+  },[])
 
-  const filteredPotions = selectedDate
-    ? potions.filter(p => p.date === selectedDate)
-    : [];
 
-  const handleDelete = (id: string) => {
-    setPotions(prev => prev.filter(p => p.id !== id));
-  };
 
   return (
     <BaseScreen>
@@ -44,10 +38,10 @@ export default function HistoryScreen() {
       )}
 
       <CommonList
-        data={filteredPotions}
+        data={managers}
         keyExtractor={item => item.id}
         renderItem={(item) => (
-          <Pressable onPress={() => handleDelete(item.id)} style={styles.card}>
+          <Pressable onPress={() => console.log(item.ate)} style={styles.card}>
             <Text style={styles.titleText}>{item.name}</Text>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
               <Text>타입: {item.eatingType}</Text>
