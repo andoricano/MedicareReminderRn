@@ -5,7 +5,7 @@ export type Potion = {
   times: string[];
   bundleNum: number;
   Todo: number;
-  ate: number;
+  ate: string[];
   totalNum: number;
   eatingNum: number;
   restNum: number;

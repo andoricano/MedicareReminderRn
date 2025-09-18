@@ -28,6 +28,7 @@ export const getDBConnection = (
     }
   );
 };
+
 export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -36,10 +37,10 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
         id TEXT PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
         eatingType TEXT,
-        times TEXT,       -- TEXT로 바꾸고 JSON 문자열 저장
+        times TEXT,       
         bundleNum INTEGER,
         Todo INTEGER,
-        ate INTEGER,
+        ate TEXT,         
         totalNum INTEGER,
         eatingNum INTEGER,
         restNum INTEGER,
@@ -49,6 +50,7 @@ export const createPotionTable = async (db: SQLite.SQLiteDatabase) => {
     );
   });
 };
+
 export const getPotions = (
   db: SQLite.SQLiteDatabase,
   onSuccess: (potions: Potion[]) => void,
@@ -65,20 +67,28 @@ export const getPotions = (
         for (let i = 0; i < rows.length; i++) {
           const item = rows.item(i);
           let times: string[] = [];
+          let ate: string[] = [];
+
           try {
             times = item.times ? JSON.parse(item.times) : [];
           } catch {
             times = [];
           }
 
+          try {
+            ate = item.ate ? JSON.parse(item.ate) : [];
+          } catch {
+            ate = [];
+          }
+
           potions.push({
             id: item.id,
             name: item.name,
             eatingType: item.eatingType as Eating,
-            times,                // JSON 배열로 변환
+            times,
             bundleNum: item.bundleNum,
             Todo: item.Todo,
-            ate: item.ate,
+            ate,
             totalNum: item.totalNum,
             eatingNum: item.eatingNum,
             restNum: item.restNum,
@@ -95,6 +105,7 @@ export const getPotions = (
     );
   });
 };
+
 export const addPotion = (
   db: SQLite.SQLiteDatabase,
   potion: Omit<Potion, "id">,
@@ -113,10 +124,10 @@ export const addPotion = (
           id,
           potion.name || "",
           potion.eatingType?.toString() || "",
-          JSON.stringify(potion.times || []), // ← times 배열 JSON 문자열로 저장
+          JSON.stringify(potion.times || []),
           potion.bundleNum ?? 0,
           potion.Todo ?? 0,
-          potion.ate ?? 0,
+          JSON.stringify(potion.ate || []),
           potion.totalNum ?? 0,
           potion.eatingNum ?? 0,
           potion.restNum ?? 0,
@@ -147,7 +158,7 @@ export const updatePotion = (
     UPDATE potion SET
       name = ?, 
       eatingType = ?, 
-      times = ?,       -- 컬럼명 변경
+      times = ?, 
       bundleNum = ?, 
       Todo = ?, 
       ate = ?, 
@@ -164,10 +175,10 @@ export const updatePotion = (
       [
         potion.name,
         potion.eatingType.toString(),
-        JSON.stringify(potion.times || []), // ← times 배열 JSON 문자열로 저장
+        JSON.stringify(potion.times || []),
         potion.bundleNum,
         potion.Todo,
-        potion.ate,
+        JSON.stringify(potion.ate || []),
         potion.totalNum,
         potion.eatingNum,
         potion.restNum,
