@@ -19,11 +19,6 @@ const PotionList = ({ data }: { data: Potion[] }) => {
           <Pressable
             onPress={() => {
               console.log('클릭한 아이템:', JSON.stringify(item));
-              deletePotionCtx(
-                item.id,
-                () => console.log('삭제 성공'),
-                (err) => console.error('삭제 실패:', err)
-              );
             }}
 
             style={styles.card}
@@ -48,7 +43,18 @@ export default function AlarmListScreen({ navigation }: any) {
   return (
     <BaseScreen>
 
-      <Text style={styles.title}>AlarmList</Text>
+      <View style={styles.headerRow}>
+        <Text style={styles.title}>AlarmList</Text>
+        <Pressable
+          style={styles.headerButton}
+          onPress={() => {
+            console.log('상단 버튼 클릭');
+          }}
+        >
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>선택</Text>
+        </Pressable>
+      </View>
+
       <PotionList data={managers} />
       <View style={{ margin: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
         <Button
@@ -80,5 +86,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 4,
+  },
+
+  topRightButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  headerButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 6
   },
 });
